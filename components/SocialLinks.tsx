@@ -1,28 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet, Linking, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Linking, TouchableOpacity, Image } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { ThemedText } from './ThemedText';
 
 export function SocialLinks() {
-  const handleKoFi = () => {
-    const koFiUrl = 'https://ko-fi.com/rubzdev';
-    Linking.openURL(koFiUrl).catch((err) => console.error('Error al abrir Ko-fi:', err));
-  };
-  const handleX = () => {
-    const koFiUrl = 'https://twitter.com/rubzdev';
-    Linking.openURL(koFiUrl).catch((err) => console.error('Error al abrir X:', err));
-  };
 
-  const handleLinkPress = async (url: string) => {
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      Toast.show({type: 'error', text1: 'Error opening ko-fi...', text2: "Can't open URL" })
-    }
-  };
+    const handleX = () => {
+        Linking.openURL('https://x.com/rubzdev').catch((err) => console.error('Error al abrir X:', err));
+        };
+    const handleKoFi = () => {
+        Linking.openURL('https://ko-fi.com/rubzdev').catch((err) => console.error('Error al abrir Ko-fi:', err));
+    };
+    const handleGithub = () => {
+        Linking.openURL('https://github.com/jrubio9/trip-companion').catch((err) => Toast.show({type: 'error', text1: 'Error opening Github...', text2: err.message }));
+    };
 
-  return (
+    return (
     <View style={styles.socialContainer}>
         <TouchableOpacity onPress={handleX} style={[styles.button]}>
             <Image source={require('../assets/images/logo-x-min.png')} style={styles.logo} />
@@ -32,8 +25,12 @@ export function SocialLinks() {
             <Image source={require('../assets/images/logo-kofi-min.png')} style={styles.logo} />
             <ThemedText type='buttonText'>Buy me a coffee</ThemedText>
         </TouchableOpacity>
+        <TouchableOpacity onPress={handleGithub} style={[styles.button]}>
+            <Image source={require('../assets/images/logo-github-min.png')} style={styles.logo} />
+            <ThemedText type='buttonText'>Public sourcecode</ThemedText>
+        </TouchableOpacity>
     </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
