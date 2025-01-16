@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define el tipo para todas las configuraciones de la aplicación
 interface Settings {
@@ -8,7 +9,7 @@ interface Settings {
 
 interface SettingsContextType {
   settings: Settings;
-  updateSettings: (newSettings: Partial<Settings>) => void; // Actualizar una o más configuraciones
+  updateSettings: (newSettings: Partial<Settings>) => Promise<void>; // Actualizar una o más configuraciones
 }
 
 // Crea el contexto
@@ -21,8 +22,30 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     // Inicializa más configuraciones aquí
   });
 
-  const updateSettings = (newSettings: Partial<Settings>) => {
-    setSettings((prevSettings) => ({ ...prevSettings, ...newSettings }));
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const storedSettings = await AsyncStorage.getItem('settings');
+        console.log('storedSettings', storedSettings);
+        if (storedSettings) {
+          setSettings(JSON.parse(storedSettings));
+        }
+      } catch (error) {
+        console.error('Error loading settings:', error);
+      }
+    };
+    loadSettings();
+  }, []);
+
+  const updateSettings = async (newSettings: Partial<Settings>) => {
+    const updatedSettings = { ...settings, ...newSettings };
+    setSettings(updatedSettings);
+    try {
+      await AsyncStorage.setItem('settings', JSON.stringify(updatedSettings));
+      console.log("Saved");
+    } catch (error) {
+      console.error('Error al guardar las configuraciones:', error);
+    }
   };
 
   return (

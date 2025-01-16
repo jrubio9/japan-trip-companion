@@ -53,7 +53,7 @@ export default function CurrencyConverter() {
     <View style={styles.container}>
       <Text style={styles.title}>Currency Converter</Text>
       <Text style={styles.subtitle}>
-        Check live rates, set rate alerts, receive notifications and more.
+        Easy convert para evitar timaditas.
       </Text>
 
       {/* Conversion Box */}
