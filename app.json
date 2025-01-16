@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "japan-trip-companion",
-    "slug": "japan-trip-companion",
+    "name": "trip-companion",
+    "slug": "trip-companion",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
