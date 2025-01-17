@@ -26,7 +26,6 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const loadSettings = async () => {
       try {
         const storedSettings = await AsyncStorage.getItem('settings');
-        console.log('storedSettings', storedSettings);
         if (storedSettings) {
           setSettings(JSON.parse(storedSettings));
         }
@@ -42,7 +41,6 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setSettings(updatedSettings);
     try {
       await AsyncStorage.setItem('settings', JSON.stringify(updatedSettings));
-      console.log("Saved");
     } catch (error) {
       console.error('Error al guardar las configuraciones:', error);
     }
